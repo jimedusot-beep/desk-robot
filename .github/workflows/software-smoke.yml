@@ -1,0 +1,51 @@
+name: Desk Robot software smoke
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desk-robot-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python-stdlib-smoke:
+    name: Python ${{ matrix.python }} / software-only
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Compile Python sources without importing hardware libraries
+        run: python -m compileall -q server/brain server/launcher.py server/tests
+      - name: Validate checked-in face configurations
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          paths = sorted(Path("server/faces").glob("*.json"))
+          assert paths, "No face configurations found"
+          for path in paths:
+              data = json.loads(path.read_text(encoding="utf-8"))
+              assert isinstance(data, dict), f"{path}: expected JSON object"
+              print("Validated:", path)
+          PY
+      - name: Run stdlib-only settings unit tests
+        working-directory: server
+        run: python -m unittest discover -s tests -p test_settings.py -v
+      - name: Report evidence limit
+        run: |
+          echo "Passed source compile, JSON parse and settings unit tests only."
+          echo "Not evidence of firmware, hardware motion, audio, camera, full server or Windows operation."
