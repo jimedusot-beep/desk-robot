@@ -45,7 +45,10 @@ jobs:
       - name: Run stdlib-only settings unit tests
         working-directory: server
         run: python -m unittest discover -s tests -p test_settings.py -v
+      - name: Exercise transcript comparison
+        working-directory: server
+        run: python -m unittest discover -s tests -p test_tts_check.py -v
       - name: Report evidence limit
         run: |
-          echo "Passed source compile, JSON parse and settings unit tests only."
+          echo "Passed source compile, JSON parse, settings and transcript unit tests."
           echo "Not evidence of firmware, hardware motion, audio, camera, full server or Windows operation."
