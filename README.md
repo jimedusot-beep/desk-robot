@@ -780,3 +780,7 @@ cd server && python -m unittest tests/test_*.py
 
 MIT licensed. See [`LICENSE`](LICENSE). Build one, change everything, tell
 me what it turned into.
+
+## Related repos
+
+[Upstream desk-robot](https://github.com/cgro00/desk-robot) is the original project. [Herbie hardware](https://github.com/jimedusot-beep/Herbie-cyborg-hardware) studies related robot designs. Treat the controller protocols as separate interfaces.
