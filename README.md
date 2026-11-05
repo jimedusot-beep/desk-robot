@@ -784,3 +784,18 @@ me what it turned into.
 ## Related repos
 
 [Upstream desk-robot](https://github.com/cgro00/desk-robot) is the original project. [Herbie hardware](https://github.com/jimedusot-beep/Herbie-cyborg-hardware) studies related robot designs. Treat the controller protocols as separate interfaces.
+
+## Upstream policy (fork notes)
+
+This is a **personal fork of [cgro00/desk-robot](https://github.com/cgro00/desk-robot)** (Casey, MIT), kept as a research reference and testbed. Upstream is untouched; license and copyright remain Casey's.
+
+Local changes vs upstream `main`, and nothing more:
+
+- CI: `software-smoke.yml` (stdlib-only compile + settings tests) and `lint.yml` (ruff `E9,F63,F7,F82` — undefined-name gate)
+- `server/brain/main.py`: added the missing `re` import (F821) and extracted the TTS word-set helper into `brain/tts_words.py`
+- new modules/tests: `server/brain/tts_words.py`, `server/tests/test_tts_words.py` (dependency-free regression)
+- this section and the Related-repos pointer above
+
+**Upstream policy:** we do not push to, file issues on, or make any change against upstream from this fork. Bugs found upstream are recorded here only; proposing anything upstream is a separate, deliberate decision and none has been made. No upstream sync is automatic; merging upstream changes would be an explicit, reviewed operation.
+
+**Scope:** experimental reference code. Nothing here certifies or controls physical hardware; see the CI evidence-limit notes and module docs. Voice/camera behavior in this fork is unverified on real hardware.
