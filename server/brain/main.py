@@ -47,6 +47,7 @@ import time
 import websockets
 
 from . import computer, config, faces, mouth, personality, settings
+from .tts_words import word_set
 from .body import Body
 from .dance import Dancer, length as dance_length
 from .thinking import Interrupted, RobotBrain
@@ -1054,8 +1055,7 @@ def check_tts(text: str, pcm: bytes) -> None:
     import numpy as np
     audio = np.frombuffer(pcm, dtype=np.int16).astype(np.float32) / 32768.0
     heard_text = _tts_checker.transcribe(audio)
-    words = lambda t: set(re.findall(r"[a-z']+", t.lower()))
-    said, got = words(mouth.clean_for_tts(text)), words(heard_text)
+    said, got = word_set(mouth.clean_for_tts(text)), word_set(heard_text)
     extra = got - said
     missing = said - got
     # Transcription is imperfect: only shout when several words are foreign.
