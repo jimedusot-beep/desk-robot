@@ -789,7 +789,7 @@ me what it turned into.
 
 This is a **personal fork of [cgro00/desk-robot](https://github.com/cgro00/desk-robot)** (Casey, MIT), kept as a research reference and testbed. Upstream is untouched; license and copyright remain Casey's.
 
-Local changes vs upstream `main`, and nothing more:
+Changes maintained in this fork include the following.
 
 - CI: `software-smoke.yml` (stdlib-only compile + settings tests) and `lint.yml` (ruff `E9,F63,F7,F82` — undefined-name gate)
 - `server/brain/main.py`: added the missing `re` import (F821) and extracted the TTS word-set helper into `brain/tts_words.py`
@@ -798,4 +798,4 @@ Local changes vs upstream `main`, and nothing more:
 
 **Upstream policy:** we do not push to, file issues on, or make any change against upstream from this fork. Bugs found upstream are recorded here only; proposing anything upstream is a separate, deliberate decision and none has been made. No upstream sync is automatic; merging upstream changes would be an explicit, reviewed operation.
 
-**Scope:** experimental reference code. Nothing here certifies or controls physical hardware; see the CI evidence-limit notes and module docs. Voice/camera behavior in this fork is unverified on real hardware.
+The firmware can move the pan and tilt servos on a connected robot. The fork’s CI checks software only. Physical motion, voice and camera behavior still require testing on the assembled hardware.
